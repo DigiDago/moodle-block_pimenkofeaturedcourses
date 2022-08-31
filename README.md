@@ -1,6 +1,6 @@
 # Plugin pimenko featured courses for Moodle
 
-Block to display a list of featured courses related linked only to ur block
+Block to display a list of featured courses specific to the block linked to it
 
 ## Build status
 
