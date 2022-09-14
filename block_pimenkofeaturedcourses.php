@@ -39,7 +39,7 @@ class block_pimenkofeaturedcourses extends block_base {
      * @return string The block HTML.
      */
     public function get_content() {
-        global $OUTPUT;
+        global $DB, $OUTPUT;
 
         if ($this->content !== null) {
             return $this->content;
@@ -49,9 +49,69 @@ class block_pimenkofeaturedcourses extends block_base {
         $this->content->footer = '';
 
         // Add logic here to define your template data or any other content.
-        $data = ['YOUR DATA GOES HERE'];
+        $configdata = unserialize_object(base64_decode($this->instance->configdata));
 
-        $this->content->text = $OUTPUT->render_from_template('block_pimenkofeaturedcourses/template/content', $data);
+        if (!isset($configdata->courseslist)) {
+            return $this->content;
+        } else {
+            $courseslist = [];
+
+            foreach ($configdata->courseslist as $key => $courseid) {
+                $course = get_course($courseid);
+                $courseelements = new core_course_list_element($course);
+
+                $chelper = new coursecat_helper();
+                $course->summary = $chelper->get_course_formatted_summary($courseelements);
+
+                // Get course picture.
+                $coursefiles = $courseelements->get_course_overviewfiles();
+                if (count($coursefiles) > 0) {
+                    $file = reset($coursefiles);
+                    $course->urlimg = new moodle_url(
+                        '/pluginfile.php/' . $file->get_contextid() . '/course/overviewfiles/' . $file->get_source()
+                    );
+                }
+
+                // Get category info.
+                $category = core_course_category::get($course->category);
+                $course->categoryname = $category->get_formatted_name();
+
+                // Formatted course name.
+                $course->fullname = $chelper->get_course_formatted_name($courseelements);
+
+                // Get subscribed student numbers.
+                $coursesql = "WHERE e.courseid = :courseid";
+                $params['courseid'] = $course->id;
+                $sql = "SELECT COUNT(DISTINCT(ue.userid)) AS enroled_count
+                      FROM {user_enrolments} ue
+                      JOIN {enrol} e ON e.id = ue.enrolid
+                      $coursesql";
+                $enroledcount = $DB->get_field_sql($sql, $params);
+                $course->enroledcount = $enroledcount . ' ' . get_string('subscribers', 'block_pimenkofeaturedcourses');
+
+                // Get customfields elements.
+                $customfields = $courseelements->get_custom_fields();
+                $course->customfields = [];
+
+                // Adding of custom fields in the template.
+                foreach ($customfields as $customfield) {
+                    $cf = new stdClass();
+                    $cf->customfield = $customfield->export_value();
+
+                    if ($cf->customfield != '') {
+                        $course->customfields[] = $cf;
+                    }
+                }
+
+                $course->url = new \moodle_url('/course/view.php', ['id' => $course->id]);
+                $courseslist[] = $course;
+            }
+
+            $data = [
+                'courses' => $courseslist
+            ];
+            $this->content->text = $OUTPUT->render_from_template('block_pimenkofeaturedcourses/content', $data);
+        }
 
         return $this->content;
     }
@@ -63,11 +123,16 @@ class block_pimenkofeaturedcourses extends block_base {
      */
     public function applicable_formats(): array {
         return [
-            'admin' => true,
-            'site-index' => true,
-            'course-view' => true,
-            'mod' => true,
-            'my' => true,
+            'all' => true
         ];
+    }
+
+    /**
+     * Allow to have multiple instance of this plugin.
+     *
+     * @return bool
+     */
+    public function instance_allow_multiple(): bool {
+        return true;
     }
 }

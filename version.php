@@ -24,9 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022090100;
+$plugin->version = 2022090101;
 $plugin->requires = 2022041902;
-$plugin->supported = 2022041902;   // Available as of Moodle 3.9.0 or later.
 $plugin->component = 'block_pimenkofeaturedcourses';
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->release = '1.0';

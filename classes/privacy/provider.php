@@ -22,11 +22,18 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Pimenko featured course';
-$string['pimenkofeaturedcourses'] = 'Pimenko featured course';
-$string['courseslist'] = 'Courses list';
-$string['pluginname:addinstance'] = 'Add a new pimenkofeaturedcourses block';
-$string['pluginname:myaddinstance'] = 'Add a new pimenkofeaturedcourses block to the My Moodle page';
-$string['privacy:metadata'] = 'The pimenko featured course block only shows data stored in other locations.';
-$string['orderof'] = 'Order of';
-$string['subscribers'] = 'subscribers';
+namespace block_pimenkofeaturedcourses\privacy;
+
+// This plugin does not store any personal user data.
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason(): string {
+        return 'privacy:metadata';
+    }
+}
