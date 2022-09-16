@@ -21,7 +21,6 @@
  * @copyright Pimenko | Sylvain Revenu
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class block_pimenkofeaturedcourses extends block_base {
 
     /**
@@ -103,9 +102,35 @@ class block_pimenkofeaturedcourses extends block_base {
                     }
                 }
 
+                // Get course tag list.
+                $tagslist = array_values(core_tag_tag::get_item_tags_array('core', 'course', $course->id));
+                $course->tagslist = '';
+
+                if (!empty($tagslist) && count($tagslist) > 1) {
+                    for ($i = 0; $i < count($tagslist); $i++) {
+                        if ($i < count($tagslist) - 1) {
+                            $course->tagslist .= $tagslist[$i] . ' - ';
+                        } else {
+                            $course->tagslist .= $tagslist[$i];
+                        }
+                    }
+                } else if (!empty($tagslist)) {
+                    $course->tagslist = $tagslist[0];
+                }
+
                 $course->url = new \moodle_url('/course/view.php', ['id' => $course->id]);
-                $courseslist[] = $course;
+
+                if (array_key_exists($configdata->{'course_order_' . $course->id}, $courseslist)) {
+                    $courseslist[] = $course;
+                } else {
+                    $courseslist[$configdata->{'course_order_' . $course->id}] = $course;
+                }
             }
+
+            // We need to sort ur array.
+            $sortedlist = new ArrayObject($courseslist);
+            $sortedlist->ksort();
+            $courseslist = $sortedlist->getArrayCopy();
 
             $data = [
                 'courses' => $courseslist
