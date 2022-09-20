@@ -21,6 +21,7 @@
  * @copyright Pimenko | Sylvain Revenu
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
 
     /**
@@ -67,9 +68,10 @@ class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
         $coursesselect = optional_param_array('config_courseslist', [], PARAM_TEXT);
         if (!$coursesselect) {
             $configdata = unserialize_object(base64_decode($this->block->instance->configdata));
-            $coursesselect = $configdata->courseslist;
+            if (isset($configdata->courseslist)) {
+                $coursesselect = $configdata->courseslist;
+            }
         }
-        var_dump($coursesselect);
 
         if (isset($coursesselect)) {
             $coursesnumber = count($coursesselect);
