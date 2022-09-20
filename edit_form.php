@@ -31,6 +31,9 @@ class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
     public function specific_definition($mform): void {
         global $DB, $PAGE;
 
+        $mform = $this->_form;
+
+        $PAGE->requires->js_call_amd('block_pimenkofeaturedcourses/updatebutton', 'init');
         // TODO refresh form on courseselect.
 
         // Section header title according to language file.
@@ -50,29 +53,35 @@ class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
         $options = array(
             'multiple' => true,
             'noselectionstring' => get_string('allareas', 'search'),
-            'data-formatchooser-field' => 'autocomplete',
+            'data-updatebutton-field' => 'autocomplete',
         );
         $mform->addElement('autocomplete',
             'config_courseslist', get_string('searcharea', 'search'), $courseslist, $options);
         // Button to update format-specific options on format change (will be hidden by JavaScript).
-        //$mform->registerNoSubmitButton('updatecourseslist');
-        //$mform->addElement('submit', 'updatecourseslist', get_string('updatecourseslist', 'block_pimenkofeaturedcourses'), [
-        //    'data-formatchooser-field' => 'updateButton',
-        //    'class' => 'd-none',
-        //]);
+        $mform->registerNoSubmitButton('updatecourseslist');
+        $mform->addElement('submit', 'updatecourseslist', get_string('updatecourseslist', 'block_pimenkofeaturedcourses'), [
+            'data-updatebutton-field' => 'updateButton',
+            'class' => 'd-none',
+        ]);
 
-        $configdata = unserialize_object(base64_decode($this->block->instance->configdata));
+        $coursesselect = optional_param_array('config_courseslist', [], PARAM_TEXT);
+        if (!$coursesselect) {
+            $configdata = unserialize_object(base64_decode($this->block->instance->configdata));
+            $coursesselect = $configdata->courseslist;
+        }
+        var_dump($coursesselect);
 
-        if (isset($configdata->courseslist)) {
-            $coursesnumber = count($configdata->courseslist);
+        if (isset($coursesselect)) {
+            $coursesnumber = count($coursesselect);
             $options = [];
             for ($i = 1; $i <= $coursesnumber; $i++) {
                 $options[] = $i;
             }
 
-            foreach ($configdata->courseslist as $course) {
-                $select = $mform->addElement('select', 'config_course_order_' . $course,
-                    get_string('orderof', 'block_pimenkofeaturedcourses') . ' ' . $courseslist[$course], $options);
+            foreach ($coursesselect as $course) {
+                $select = $mform->addElement('select', 'config_course_order_' . clean_param($course, PARAM_INT),
+                    get_string('orderof', 'block_pimenkofeaturedcourses') . ' ' . $courseslist[clean_param($course, PARAM_INT)],
+                    $options);
                 $select->setMultiple(false);
             }
         }

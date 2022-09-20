@@ -120,7 +120,8 @@ class block_pimenkofeaturedcourses extends block_base {
 
                 $course->url = new \moodle_url('/course/view.php', ['id' => $course->id]);
 
-                if (array_key_exists($configdata->{'course_order_' . $course->id}, $courseslist)) {
+                if (!isset($configdata->{'course_order_' . $course->id}) ||
+                    array_key_exists($configdata->{'course_order_' . $course->id}, $courseslist)) {
                     $courseslist[] = $course;
                 } else {
                     $courseslist[$configdata->{'course_order_' . $course->id}] = $course;

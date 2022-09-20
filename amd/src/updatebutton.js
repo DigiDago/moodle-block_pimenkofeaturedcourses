@@ -1,4 +1,4 @@
-// This file is part of Moodle - http://moodle.org
+// This file is part of Moodle - http://moodle.org/ //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -15,7 +15,7 @@
 /**
  * Course format selection handler.
  *
- * @module     block_pimenkofeaturedcourses/refreshcourselist
+ * @module     block_pimenkofeaturedcourses/updatebutton
  * @copyright  2022 Andrew Nicols <andrew@nicols.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since      4.0
@@ -23,8 +23,8 @@
 
 const Selectors = {
     fields: {
-        selector: '[data-formatchooser-field="autocomplete"]',
-        updateButton: '[data-formatchooser-field="updateButton"]',
+        selector: '[data-updatebutton-field="autocomplete"]',
+        updateButton: '[data-updatebutton-field="updateButton"]',
     },
 };
 
@@ -33,11 +33,10 @@ const Selectors = {
  */
 export const init = () => {
     document.querySelector(Selectors.fields.selector).addEventListener('change', e => {
-        // eslint-disable-next-line no-console
-        console.log('pouet');
         const form = e.target.closest('form');
         const updateButton = form.querySelector(Selectors.fields.updateButton);
         const fieldset = updateButton.closest('fieldset');
+        // eslint-disable-next-line no-console
 
         const url = new URL(form.action);
         url.hash = fieldset.id;
