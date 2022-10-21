@@ -36,7 +36,6 @@ export const init = () => {
         const form = e.target.closest('form');
         const updateButton = form.querySelector(Selectors.fields.updateButton);
         const fieldset = updateButton.closest('fieldset');
-        // eslint-disable-next-line no-console
 
         const url = new URL(form.action);
         url.hash = fieldset.id;

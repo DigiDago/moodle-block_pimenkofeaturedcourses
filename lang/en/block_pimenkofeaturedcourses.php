@@ -23,10 +23,11 @@
  */
 
 $string['pluginname'] = 'Pimenko featured course';
-$string['pimenkofeaturedcourses'] = 'Pimenko featured course';
+$string['pimenkofeaturedcourses'] = 'Featured course';
 $string['courseslist'] = 'Courses list';
-$string['pluginname:addinstance'] = 'Add a new pimenkofeaturedcourses block';
-$string['pluginname:myaddinstance'] = 'Add a new pimenkofeaturedcourses block to the My Moodle page';
+$string['pluginname:addinstance'] = 'Add a new featured course block';
+$string['pluginname:myaddinstance'] = 'Add a new featured course block to the page';
 $string['privacy:metadata'] = 'The pimenko featured course block only shows data stored in other locations.';
 $string['orderof'] = 'Order of';
 $string['subscribers'] = 'subscribers';
+$string['updatecourseslist'] = 'refresh courses list order';

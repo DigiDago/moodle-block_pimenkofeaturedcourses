@@ -15,17 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version metadata for the block_pimenkofeaturedcourses plugin.
+ * Languages configuration for the block_pimenkofeaturedcourses plugin.
  *
  * @package   block_pimenkofeaturedcourses
  * @copyright Pimenko | Sylvain Revenu
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version = 2022092100;
-$plugin->requires = 2022041902;
-$plugin->component = 'block_pimenkofeaturedcourses';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.1';
+$string['pluginname'] = 'Cours vedettes Pimenko';
+$string['pimenkofeaturedcourses'] = 'Cours vedettes';
+$string['courseslist'] = 'Liste des cours';
+$string['pluginname:addinstance'] = 'Ajouter un nouveau bloc \"Cours vedettes \"';
+$string['pluginname:myaddinstance'] = 'Ajoute un nouveau bloc \"Cours vedettes \" à la page';
+$string['privacy:metadata'] = 'Le bloc \"Cours vedettes Pimenko\" affiche uniquement des données d\'autres plugins.';
+$string['orderof'] = 'Ordre d\'affichage de ';
+$string['subscribers'] = 'inscrit(s)';
+$string['updatecourseslist'] = 'Raffraichir les options pour l\'ordre d\'affichage';
