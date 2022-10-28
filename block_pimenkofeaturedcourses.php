@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot. '/course/renderer.php');
+require_once($CFG->dirroot . '/course/renderer.php');
 
 class block_pimenkofeaturedcourses extends block_base {
 
@@ -43,7 +43,7 @@ class block_pimenkofeaturedcourses extends block_base {
      * @return string The block HTML.
      */
     public function get_content() {
-        global $DB, $OUTPUT;
+        global $DB, $OUTPUT, $CFG;
 
         if ($this->content !== null) {
             return $this->content;
@@ -98,9 +98,11 @@ class block_pimenkofeaturedcourses extends block_base {
                 $course->customfields = [];
 
                 // Adding of custom fields in the template.
+
                 foreach ($customfields as $customfield) {
                     $cf = new stdClass();
                     $cf->customfield = $customfield->export_value();
+                    $cf->customfieldname = $customfield->get_field()->get('shortname') . '_' . $customfield->get_field()->get('id');
 
                     if ($cf->customfield != '') {
                         $course->customfields[] = $cf;
@@ -138,9 +140,17 @@ class block_pimenkofeaturedcourses extends block_base {
             $sortedlist->ksort();
             $courseslist = $sortedlist->getArrayCopy();
 
+            $config = get_config('block_pimenkofeaturedcourses');
+            $displayenrolnumber = '0';
+            if (isset($config->displayenrolnumber)) {
+                $displayenrolnumber = $config->displayenrolnumber;
+            }
+
             $data = [
-                'courses' => $courseslist
+                'courses' => $courseslist,
+                'displayenrolnumber' => $displayenrolnumber
             ];
+
             $this->content->text = $OUTPUT->render_from_template('block_pimenkofeaturedcourses/content', $data);
         }
 
@@ -156,6 +166,16 @@ class block_pimenkofeaturedcourses extends block_base {
         return [
             'all' => true
         ];
+    }
+
+    /**
+     * Does this plugin have some settings ?
+     * If yes => True
+     *
+     * @return bool
+     */
+    public function has_config(): bool {
+        return true;
     }
 
     /**

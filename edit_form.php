@@ -34,8 +34,9 @@ class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
 
         $mform = $this->_form;
 
+        // For some reasons calling $this->page->requires->js_call_amd is not applying javascript to ur page ...
+        // Using this for now.
         $PAGE->requires->js_call_amd('block_pimenkofeaturedcourses/updatebutton', 'init');
-        // TODO refresh form on courseselect.
 
         // Section header title according to language file.
         $mform->addElement('header', 'config_header', get_string('blocksettings', 'block'));

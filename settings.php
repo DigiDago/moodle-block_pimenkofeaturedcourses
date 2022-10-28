@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version metadata for the block_pimenkofeaturedcourses plugin.
+ * Block settings class for the block_pimenkofeaturedcourses plugin.
  *
  * @package   block_pimenkofeaturedcourses
  * @copyright Pimenko | Sylvain Revenu
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2022092102;
-$plugin->requires = 2022041902;
-$plugin->component = 'block_pimenkofeaturedcourses';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.2';
+if ($ADMIN->fulltree) {
+    $settings->add(
+        new admin_setting_configcheckbox(
+            'block_pimenkofeaturedcourses/displayenrolnumber',
+            get_string('displayenrolnumber', 'block_pimenkofeaturedcourses'),
+            get_string('displayenrolnumber_desc', 'block_pimenkofeaturedcourses'),
+            1)
+    );
+}

@@ -31,3 +31,5 @@ $string['privacy:metadata'] = 'The pimenko featured course block only shows data
 $string['orderof'] = 'Order of';
 $string['subscribers'] = 'subscribers';
 $string['updatecourseslist'] = 'refresh courses list order';
+$string['displayenrolnumber'] = 'Displays the number of course enrols';
+$string['displayenrolnumber_desc'] = 'If this option is checked, the number of course participants will be displayed in the thumbnail';

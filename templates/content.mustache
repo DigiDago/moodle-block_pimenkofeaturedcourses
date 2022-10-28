@@ -47,7 +47,7 @@
                         </a>
                     </div>
                     <div class="card-block p-2 d-flex flex-row">
-                        <div class="courseinfo align-self-center">
+                        <div class="courseinfo">
                             <p class="course_title"><a href="{{ url }}">{{{ fullname }}}</a></p>
                             <p class="categoryname text-muted">{{{ categoryname }}}</p>
                             {{#tagslist}}
@@ -56,11 +56,13 @@
                                 </div>
                             {{/tagslist}}
                         </div>
-                        <div class="coursemodal ml-auto align-self-center">
+                        <div class="coursemodal ml-auto">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary modalbutton ml-auto" data-toggle="modal" data-target="#modal-{{ id }}">
-                                <i class="fa fa-info" aria-hidden="true"></i>
-                            </button>
+                            {{# summary }}
+                                <button type="button" class="btn btn-primary modalbutton ml-auto" data-toggle="modal" data-target="#modal-{{ id }}">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                </button>
+                            {{/ summary }}
                             <!-- Modal -->
                             <div class="modal fade" id="modal-{{ id }}" tabindex="-1" aria-labelledby="{{{ name }}}" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -85,16 +87,18 @@
                     <div class="card-block p-2 course-data mt-auto">
                         <div class="card-text custom-fields">
                             {{# customfields}}
-                                <span>{{{customfield}}}</span><br>
+                                <span id="{{{customfieldname}}}">{{{customfield}}}</span><br>
                             {{/customfields}}
                         </div>
-                        <div class="card-text">
-                            <div class="course-enrolments">
-                                {{#enroledcount}}
-                                    <i class="icon fa fa-user fa-fw"></i>{{ enroledcount }}
-                                {{/enroledcount}}
+                        {{#displayenrolnumber}}
+                            <div class="card-text">
+                                <div class="course-enrolments">
+                                    {{#enroledcount}}
+                                        <i class="icon fa fa-user fa-fw"></i>{{ enroledcount }}
+                                    {{/enroledcount}}
+                                </div>
                             </div>
-                        </div>
+                        {{/displayenrolnumber}}
                     </div>
                 </div>
             {{/courses}}

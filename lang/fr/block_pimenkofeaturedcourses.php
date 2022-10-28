@@ -31,3 +31,5 @@ $string['privacy:metadata'] = 'Le bloc \"Cours vedettes Pimenko\" affiche unique
 $string['orderof'] = 'Ordre d\'affichage de ';
 $string['subscribers'] = 'inscrit(s)';
 $string['updatecourseslist'] = 'Raffraichir les options pour l\'ordre d\'affichage';
+$string['displayenrolnumber'] = 'Affiche le nombre d\'inscrit au cours';
+$string['displayenrolnumber_desc'] = 'Si cette option est coché, le nombre d\'inscrit au cours sera affiché dans la vignette';
