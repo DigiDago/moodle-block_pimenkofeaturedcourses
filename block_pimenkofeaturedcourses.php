@@ -125,7 +125,22 @@ class block_pimenkofeaturedcourses extends block_base {
                     $course->tagslist = $tagslist[0];
                 }
 
-                $course->url = new \moodle_url('/course/view.php', ['id' => $course->id]);
+                $enrolmethod = enrol_get_instances(
+                    $course->id,
+                    true
+                );
+                foreach ($enrolmethod as $enrol) {
+                    if ($enrol->enrol == 'synopsis') {
+                        $params = ['id' => $course->id];
+                        $course->url = new moodle_url(
+                            "/enrol/synopsis/index.php",
+                            $params
+                        );
+                        break;
+                    } else {
+                        $course->url = new \moodle_url('/course/view.php', ['id' => $course->id]);
+                    }
+                }
 
                 if (!isset($configdata->{'course_order_' . $course->id}) ||
                     array_key_exists($configdata->{'course_order_' . $course->id}, $courseslist)) {
