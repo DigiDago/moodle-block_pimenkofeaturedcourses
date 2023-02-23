@@ -22,12 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Cours vedettes Pimenko';
-$string['pimenkofeaturedcourses'] = 'Cours vedettes';
+$string['pluginname'] = 'Cours à la une';
+$string['pimenkofeaturedcourses'] = 'Cours à la une';
 $string['courseslist'] = 'Liste des cours';
-$string['pluginname:addinstance'] = 'Ajouter un nouveau bloc \"Cours vedettes \"';
-$string['pluginname:myaddinstance'] = 'Ajoute un nouveau bloc \"Cours vedettes \" à la page';
-$string['privacy:metadata'] = 'Le bloc \"Cours vedettes Pimenko\" affiche uniquement des données d\'autres plugins.';
+$string['pluginname:addinstance'] = 'Ajouter un nouveau bloc \"Cours à la une\"';
+$string['pluginname:myaddinstance'] = 'Ajoute un nouveau bloc \"Cours à la une\" à la page';
+$string['privacy:metadata'] = 'Le bloc \"Cours à la une\" affiche uniquement des données d\'autres plugins.';
 $string['orderof'] = 'Ordre d\'affichage de ';
 $string['subscribers'] = 'inscrit(s)';
 $string['updatecourseslist'] = 'Raffraichir les options pour l\'ordre d\'affichage';
