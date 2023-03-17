@@ -22,12 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Pimenko featured course';
-$string['pimenkofeaturedcourses'] = 'Featured course';
+$string['pluginname'] = 'Flexible featured course';
+$string['pimenkofeaturedcourses'] = 'Flexible featured course';
 $string['courseslist'] = 'Courses list';
-$string['pluginname:addinstance'] = 'Add a new featured course block';
-$string['pluginname:myaddinstance'] = 'Add a new featured course block to the page';
-$string['privacy:metadata'] = 'The pimenko featured course block only shows data stored in other locations.';
+$string['pluginname:addinstance'] = 'Add a new flexible featured course block';
+$string['pluginname:myaddinstance'] = 'Add a new flexible featured course block to the page';
+$string['privacy:metadata'] = 'The flexible featured course block only shows data stored in other locations.';
 $string['orderof'] = 'Order of';
 $string['subscribers'] = 'subscribers';
 $string['updatecourseslist'] = 'refresh courses list order';
