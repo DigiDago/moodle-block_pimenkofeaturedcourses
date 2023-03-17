@@ -31,5 +31,5 @@ $string['privacy:metadata'] = 'Le bloc \"Cours à la une\" affiche uniquement de
 $string['orderof'] = 'Ordre d\'affichage de ';
 $string['subscribers'] = 'inscrit(s)';
 $string['updatecourseslist'] = 'Raffraichir les options pour l\'ordre d\'affichage';
-$string['displayenrolnumber'] = 'Affiche le nombre d\'inscrit au cours';
-$string['displayenrolnumber_desc'] = 'Si cette option est coché, le nombre d\'inscrit au cours sera affiché dans la vignette';
+$string['displayenrolnumber'] = 'Afficher le nombre d\'inscrits au cours';
+$string['displayenrolnumber_desc'] = 'Si cette option est cochée, le nombre d\'inscrits au cours est affiché dans la vignette';
