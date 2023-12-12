@@ -43,7 +43,7 @@ class block_pimenkofeaturedcourses extends block_base {
      * @return string The block HTML.
      */
     public function get_content() {
-        global $DB, $OUTPUT, $CFG;
+        global $DB, $OUTPUT, $USER;
 
         if ($this->content !== null) {
             return $this->content;
@@ -77,6 +77,9 @@ class block_pimenkofeaturedcourses extends block_base {
                 }
 
                 // Get category info.
+                if (!core_course_category::can_view_course_info($course, $USER)) {
+                    continue;
+                }
                 $category = core_course_category::get($course->category);
                 $course->categoryname = $category->get_formatted_name();
 
