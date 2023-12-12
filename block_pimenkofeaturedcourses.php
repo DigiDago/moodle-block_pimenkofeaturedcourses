@@ -80,7 +80,7 @@ class block_pimenkofeaturedcourses extends block_base {
                 if (!core_course_category::can_view_course_info($course, $USER)) {
                     continue;
                 }
-                $category = core_course_category::get($course->category);
+                $category = core_course_category::get($course->category, MUST_EXIST, true, $USER);
                 $course->categoryname = $category->get_formatted_name();
 
                 // Formatted course name.
