@@ -1,30 +1,25 @@
 @javascript @block @block_pimenkofeaturedcourses-Iterations2
 Feature: Pimenko Featured Courses block functionality
-
-  Background:
+ Background:
     Given the following "users" exist:
       | username | firstname | lastname | email | idnumber |
       | teacher1 | Teacher | 1 | teacher1@example.com | T1 |
       | student1 | student | 1 | student1@example.com | E1 |
       | student2 | student | 2 | student2@example.com | E2 |
-
     And the following "categories" exist:
       | idnumber | name |
       | 0 | Category 1 |
       | 1 | Category 2 |
-
     And the following "courses" exist:
       | fullname | shortname | category | summary |
       | Course 1 | C1 | 0 | blabla |
       | Course 2 | C2 | 1  |  |
-
     And the following "course enrolments" exist:
       | user | course | role |
       | teacher1 | C1 | editingteacher |
       | student1 | C1 | student |
       | student2 | C1 | student |
       | student1 | C2 | student |
-
     And I log in as "admin"
     And I click on ".primary-navigation li[data-key='myhome'] a" "css_element"
     And I wait until the page is ready
@@ -47,9 +42,7 @@ Feature: Pimenko Featured Courses block functionality
     And I press "Save changes"
     And I wait until the page is ready
 
-
-  Scenario: Vérifie la présence du block sur le dashboard et celle du block sur la page d'accueil.
-
+ Scenario: Vérifie la présence du block sur le dashboard et celle du block sur la page d'accueil.
     When I click on ".primary-navigation li[data-key='myhome'] a" "css_element"
     Then I should see "Flexible featured course" in the "#block-region-side-pre section:first-of-type .card-title" "css_element"
     And I am on site homepage
