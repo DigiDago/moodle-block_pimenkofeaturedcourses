@@ -9,6 +9,10 @@
     background: none;
 }
 
+.block_pimenkofeaturedcourses #course-gallery .course-gallery {
+    border:1px solid rgba(0,0,0,.125);
+}
+
 .block_pimenkofeaturedcourses .modalbutton {
     border-radius: 100%;
     height: 35px;
