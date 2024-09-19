@@ -8,12 +8,12 @@ defined('MOODLE_INTERNAL') || die;
 
 class mobile {
 
-    public static function view_mobilecontent() {
+    public static function view_hello() {
         return [
             'templates' => [
                 [
                     'id' => 'main',
-                    'html' => '<h1 class="text-center">{{ "plugin.block_pimenkofeaturedcourses.pimenkofeaturedcourses" | translate }}</h1>',
+                    'html' => '<h1 class="text-center">{{ "plugin.block_pimenkofeaturedcourses.hello" | translate }}</h1>',
                 ],
             ],
         ];

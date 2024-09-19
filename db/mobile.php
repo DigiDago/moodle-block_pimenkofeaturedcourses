@@ -20,9 +20,9 @@ defined('MOODLE_INTERNAL') || die;
 $addons = [
     'block_pimenkofeaturedcourses' => [
         'handlers' => [
-            'pimenkofeaturedcourses' => [
+            'hello' => [
                 'delegate' => 'CoreMainMenuDelegate',
-                'method' => 'view_mobilecontent',
+                'method' => 'view_hello',
                 'displaydata' => [
                     'title' => 'hello',
                     'icon' => 'earth',
@@ -30,7 +30,7 @@ $addons = [
             ],
         ],
         'lang' => [
-            ['pimenkofeaturedcourses', 'block_pimenkofeaturedcourses'],
+            ['hello', 'block_pimenkofeaturedcourses'],
         ],
     ],
 ];
