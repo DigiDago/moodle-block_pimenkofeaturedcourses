@@ -14,18 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Version metadata for the block_pimenkofeaturedcourses plugin.
- *
- * @package   block_pimenkofeaturedcourses
- * @copyright Pimenko | Sylvain Revenu
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022092106;
-$plugin->requires = 2022041902;
-$plugin->component = 'block_pimenkofeaturedcourses';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.3';
+$addons = [
+    'block_pimenkofeaturedcourses' => [
+        'handlers' => [
+            'pimenkofeaturedcourses' => [
+                'delegate' => 'CoreMainMenuDelegate',
+                'method' => 'view_mobilecontent',
+                'displaydata' => [
+                    'title' => 'hello',
+                    'icon' => 'earth',
+                ],
+            ],
+        ],
+        'lang' => [
+            ['pimenkofeaturedcourses', 'block_pimenkofeaturedcourses'],
+        ],
+    ],
+];
