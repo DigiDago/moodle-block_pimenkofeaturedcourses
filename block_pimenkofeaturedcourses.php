@@ -60,8 +60,12 @@ class block_pimenkofeaturedcourses extends block_base {
         } else {
             $courseslist = [];
 
-            foreach ($configdata->courseslist as $key => $courseid) {
-                $course = get_course($courseid);
+            foreach ($configdata->courseslist as $courseid) {
+                try {
+                    $course = get_course($courseid);
+                } catch (dml_exception) {
+                    continue;
+                }
                 $courseelements = new core_course_list_element($course);
 
                 $chelper = new coursecat_helper();

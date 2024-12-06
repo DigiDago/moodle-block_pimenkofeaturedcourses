@@ -115,7 +115,7 @@
     for(var i in courseGallery) {
     var id = courseGallery.item(i).id;
     var img = courseGallery.item(i).getElementsByClassName('img-course').item(0);
-    if(img.style['background-image'] == 'url("")') {
+    if(img && img.style['background-image'] == 'url("")') {
     var pattern = GeoPattern.generate(id);
     img.style['background-image'] = pattern.toDataUrl();
     }
