@@ -26,8 +26,14 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/renderer.php');
 
+/**
+ * Block pimenkofeaturedcourses class definition.
+ *
+ * @package   block_pimenkofeaturedcourses
+ * @copyright Pimenko | Sylvain Revenu
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class block_pimenkofeaturedcourses extends block_base {
-
     /**
      * Initialises the block.
      *
@@ -149,8 +155,10 @@ class block_pimenkofeaturedcourses extends block_base {
                     }
                 }
 
-                if (!isset($configdata->{'course_order_' . $course->id}) ||
-                    array_key_exists($configdata->{'course_order_' . $course->id}, $courseslist)) {
+                if (
+                    !isset($configdata->{'course_order_' . $course->id}) ||
+                    array_key_exists($configdata->{'course_order_' . $course->id}, $courseslist)
+                ) {
                     $courseslist[] = $course;
                 } else {
                     $courseslist[$configdata->{'course_order_' . $course->id}] = $course;
@@ -170,7 +178,7 @@ class block_pimenkofeaturedcourses extends block_base {
 
             $data = [
                 'courses' => $courseslist,
-                'displayenrolnumber' => $displayenrolnumber
+                'displayenrolnumber' => $displayenrolnumber,
             ];
 
             $this->content->text = $OUTPUT->render_from_template('block_pimenkofeaturedcourses/content', $data);
@@ -186,7 +194,7 @@ class block_pimenkofeaturedcourses extends block_base {
      */
     public function applicable_formats(): array {
         return [
-            'all' => true
+            'all' => true,
         ];
     }
 

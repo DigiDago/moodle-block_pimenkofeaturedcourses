@@ -24,9 +24,16 @@
 
 namespace block_pimenkofeaturedcourses\privacy;
 
-// This plugin does not store any personal user data.
-class provider implements \core_privacy\local\metadata\null_provider {
+/**
+ * Privacy Subsystem implementation for block_pimenkofeaturedcourses.
+ * This plugin does not store any personal user data.
 
+ *
+ * @package   block_pimenkofeaturedcourses
+ * @copyright Pimenko | Sylvain Revenu
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
     /**
      * Get the language string identifier with the component's language
      * file to explain why this plugin stores no data.
