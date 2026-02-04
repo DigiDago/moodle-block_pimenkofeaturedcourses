@@ -22,14 +22,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Cours à la une';
-$string['pimenkofeaturedcourses'] = 'Cours à la une';
 $string['courseslist'] = 'Liste des cours';
-$string['pluginname:addinstance'] = 'Ajouter un nouveau bloc \"Cours à la une\"';
-$string['pluginname:myaddinstance'] = 'Ajoute un nouveau bloc \"Cours à la une\" à la page';
-$string['privacy:metadata'] = 'Le bloc \"Cours à la une\" affiche uniquement des données d\'autres plugins.';
-$string['orderof'] = 'Ordre d\'affichage de ';
-$string['subscribers'] = 'inscrit(s)';
-$string['updatecourseslist'] = 'Raffraichir les options pour l\'ordre d\'affichage';
 $string['displayenrolnumber'] = 'Afficher le nombre d\'inscrits au cours';
 $string['displayenrolnumber_desc'] = 'Si cette option est cochée, le nombre d\'inscrits au cours est affiché dans la vignette';
+$string['orderof'] = 'Ordre d\'affichage de ';
+$string['pimenkofeaturedcourses'] = 'Cours à la une';
+$string['pluginname'] = 'Cours à la une';
+$string['pluginname:addinstance'] = 'Ajouter un nouveau bloc "Cours à la une"';
+$string['pluginname:myaddinstance'] = 'Ajoute un nouveau bloc "Cours à la une" à la page';
+$string['privacy:metadata'] = 'Le bloc "Cours à la une" affiche uniquement des données d\'autres plugins.';
+$string['subscribers'] = 'inscrit(s)';
+$string['updatecourseslist'] = 'Raffraichir les options pour l\'ordre d\'affichage';
