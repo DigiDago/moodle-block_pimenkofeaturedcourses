@@ -41,7 +41,7 @@
         <div id="course-gallery" class="row">
             {{# courses }}
                 <div class="col-lg-4 p-1 col-md-6 col-12 mb-1">
-                    <div id="course-gallery-{{ id }}" class="card course-gallery  h-100 dashboard-card" style="display: {{ display }}">
+                    <div id="course-gallery-{{ id }}" class="card course-gallery h-100 dashboard-card" style="display: {{ display }}">
                         <div class="img-container">
                             <a href="{{ url }}">
                                 <div class="img-course" style="background-image : url('{{ urlimg }}')" alt=""></div>
@@ -57,10 +57,10 @@
                                     </div>
                                 {{/tagslist}}
                             </div>
-                            <div class="coursemodal ms-auto">
+                            <div class="coursemodal ml-auto">
                                 <!-- Button trigger modal -->
                                 {{# summary }}
-                                    <button type="button" class="btn btn-primary modalbutton ml-auto" data-bs-toggle="modal" data-bs-target="#modal-{{ id }}">
+                                    <button type="button" class="btn btn-primary modalbutton ml-auto" data-toggle="modal" data-target="#modal-{{ id }}">
                                         <i class="fa fa-info" aria-hidden="true"></i>
                                     </button>
                                 {{/ summary }}
@@ -70,13 +70,15 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">{{{ fullname }}}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
                                             <div class="modal-body">
                                                 {{{ summary }}}
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{#str}}close, theme_pimenko{{/str}}</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{#str}}close, theme_pimenko{{/str}}</button>
                                             </div>
                                         </div>
                                     </div>
