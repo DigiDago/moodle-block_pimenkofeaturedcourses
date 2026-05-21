@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022092109;
-$plugin->requires = 2022041902;
+$plugin->version = 2026052100;
+$plugin->requires = 2025041400; // Moodle 5.0.
 $plugin->component = 'block_pimenkofeaturedcourses';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.3';
