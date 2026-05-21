@@ -17,23 +17,40 @@
     /**
      * Plugin template/content for the block_pimenkofeaturedcourses plugin.
      *
-     * @package   block_pimenkofeaturedcourses
-     * @copyright Pimenko | Sylvain Revenu
-     * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-     */
+     * @package    block_pimenkofeaturedcourses
+     * @copyright  2026 Pimenko <pimenko.com>
+     * @author     Revenu Sylvain <support@pimenko.com> | Amine NEDJAR <a.nedjar@pimenko.com>
+     * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+    */
 }}
 {{!
     @template block_pimenkofeaturedcourses/content
 
     Display the content of this block
 
+    Example context (json):
     {
-    'general': [
-        {"headline":"Headline 1", "message":"Content 1"},
-        {"headline":"Headline 1", "message":"Content 2"},
-        {"headline":"Headline 1", "content":"Content 3"}
-    ]
-}
+        "courses": [
+            {
+                "id": 1,
+                "display": "block",
+                "url": "http://example.org/course/view.php?id=1",
+                "urlimg": "",
+                "fullname": "Example Course",
+                "categoryname": "Example Category",
+                "tagslist": "<a class=\"badge\">Tag</a>",
+                "summary": "<p>Example summary</p>",
+                "name": "Example Course",
+                "customfields": [
+                    {"customfieldname": "cf1", "customfield": "Value 1"}
+                ],
+                "enroledcount": 42
+            }
+        ],
+        "displayenrolnumber": true,
+        "rootpath": "/",
+        "js": true
+    }
 }}
 
 <div class="card-body p-0">
@@ -44,7 +61,7 @@
                     <div id="course-gallery-{{ id }}" class="card course-gallery h-100 dashboard-card" style="display: {{ display }}">
                         <div class="img-container">
                             <a href="{{ url }}">
-                                <div class="img-course" style="background-image : url('{{ urlimg }}')" alt=""></div>
+                                <div class="img-course" style="background-image : url('{{ urlimg }}')" role="img" aria-label="{{{ fullname }}}"></div>
                             </a>
                         </div>
                         <div class="card-body p-1 d-flex flex-row">
@@ -65,12 +82,12 @@
                                     </button>
                                 {{/ summary }}
                                 <!-- Modal -->
-                                <div class="modal fade" id="modal-{{ id }}" tabindex="-1" aria-labelledby="{{{ name }}}" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                <div class="modal fade" id="modal-{{ id }}" tabindex="-1" role="dialog" aria-labelledby="modal-title-{{ id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">{{{ fullname }}}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <h5 id="modal-title-{{ id }}" class="modal-title">{{{ fullname }}}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="{{#str}}close, theme_pimenko{{/str}}">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -107,42 +124,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-<script src="{{{ rootpath }}}/blocks/pimenkofeaturedcourses/javascript/geopattern/js/geopattern.min.js"></script>
-
-{{#js}}
-    (function() {
-    // Generate pictures for the courses without picture
-    var generatePictures = function(courseGallery) {
-    for(var i in courseGallery) {
-    var id = courseGallery.item(i).id;
-    var img = courseGallery.item(i).getElementsByClassName('img-course').item(0);
-    if(img && img.style['background-image'] == 'url("")') {
-    var pattern = GeoPattern.generate(id);
-    img.style['background-image'] = pattern.toDataUrl();
-    }
-    }
-    }
-
-    var courseGallery = document.getElementsByClassName('course-gallery');
-    // Generate when the document is loaded
-    if ( courseGallery.length > 0 ) {
-    generatePictures(courseGallery);
-    }
-
-    // And when the gallery changes
-    var gallery = document.getElementById('course-gallery').parentElement;
-    var config = { attributes: false, childList: true, subtree: true };
-    var galleryChange = function(mutationsList, observer) {
-    var courseGallery = document.getElementsByClassName('course-gallery');
-    if ( courseGallery.length > 0 ) {
-    generatePictures(courseGallery);
-    }
-    }
-    var observer = new MutationObserver(galleryChange);
-    observer.observe(gallery, config);
-    })();
-{{/js}}
