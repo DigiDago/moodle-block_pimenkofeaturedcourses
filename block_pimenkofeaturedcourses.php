@@ -17,9 +17,10 @@
 /**
  * Block definition class for the block_pimenkofeaturedcourses plugin.
  *
- * @package   block_pimenkofeaturedcourses
- * @copyright Pimenko | Sylvain Revenu
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    block_pimenkofeaturedcourses
+ * @copyright  2026 Pimenko <pimenko.com>
+ * @author     Revenu Sylvain <support@pimenko.com> | Amine NEDJAR <a.nedjar@pimenko.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,9 +30,10 @@ require_once($CFG->dirroot . '/course/renderer.php');
 /**
  * Block pimenkofeaturedcourses class definition.
  *
- * @package   block_pimenkofeaturedcourses
- * @copyright Pimenko | Sylvain Revenu
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    block_pimenkofeaturedcourses
+ * @copyright  2026 Pimenko <pimenko.com>
+ * @author     Revenu Sylvain <support@pimenko.com> | Amine NEDJAR <a.nedjar@pimenko.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_pimenkofeaturedcourses extends block_base {
     /**
@@ -180,6 +182,8 @@ class block_pimenkofeaturedcourses extends block_base {
                 'courses' => $courseslist,
                 'displayenrolnumber' => $displayenrolnumber,
             ];
+
+            $this->page->requires->js_call_amd('block_pimenkofeaturedcourses/content', 'init');
 
             $this->content->text = $OUTPUT->render_from_template('block_pimenkofeaturedcourses/content', $data);
         }
