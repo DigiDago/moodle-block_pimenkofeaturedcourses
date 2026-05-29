@@ -41,13 +41,13 @@
         <div id="course-gallery" class="row">
             {{# courses }}
                 <div class="col-lg-4 p-1 col-md-6 col-12 mb-1">
-                    <div id="course-gallery-{{ id }}" class="card course-gallery  h-100 dashboard-card" style="display: {{ display }}">
+                    <div id="course-gallery-{{ id }}" class="card course-gallery h-100 dashboard-card" style="display: {{ display }}">
                         <div class="img-container">
                             <a href="{{ url }}">
                                 <div class="img-course" style="background-image : url('{{ urlimg }}')" alt=""></div>
                             </a>
                         </div>
-                        <div class="card-block p-1 d-flex flex-row">
+                        <div class="card-body p-1 d-flex flex-row">
                             <div class="courseinfo">
                                 <p class="course_title"><a href="{{ url }}">{{{ fullname }}}</a></p>
                                 <p class="categoryname text-muted">{{{ categoryname }}}</p>
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-block p-2 course-data mt-auto">
+                        <div class="card-body p-2 course-data mt-auto">
                             <div class="card-text custom-fields">
                                 {{# customfields}}
                                     <span id="{{{customfieldname}}}">{{{customfield}}}</span><br>
