@@ -22,14 +22,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Flexible featured course';
-$string['pimenkofeaturedcourses'] = 'Flexible featured course';
 $string['courseslist'] = 'Courses list';
+$string['displayenrolnumber'] = 'Displays the number of course enrols';
+$string['displayenrolnumber_desc'] = 'If this option is checked, the number of course participants will be displayed in the thumbnail';
+$string['orderof'] = 'Order of';
+$string['pimenkofeaturedcourses'] = 'Flexible featured course';
+$string['pluginname'] = 'Flexible featured course';
 $string['pluginname:addinstance'] = 'Add a new flexible featured course block';
 $string['pluginname:myaddinstance'] = 'Add a new flexible featured course block to the page';
 $string['privacy:metadata'] = 'The flexible featured course block only shows data stored in other locations.';
-$string['orderof'] = 'Order of';
 $string['subscribers'] = 'subscribers';
 $string['updatecourseslist'] = 'refresh courses list order';
-$string['displayenrolnumber'] = 'Displays the number of course enrols';
-$string['displayenrolnumber_desc'] = 'If this option is checked, the number of course participants will be displayed in the thumbnail';

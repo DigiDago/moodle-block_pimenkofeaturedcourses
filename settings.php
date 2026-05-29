@@ -30,6 +30,7 @@ if ($ADMIN->fulltree) {
             'block_pimenkofeaturedcourses/displayenrolnumber',
             get_string('displayenrolnumber', 'block_pimenkofeaturedcourses'),
             get_string('displayenrolnumber_desc', 'block_pimenkofeaturedcourses'),
-            1)
+            1
+        )
     );
 }

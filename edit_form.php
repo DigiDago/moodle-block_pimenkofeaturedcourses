@@ -21,22 +21,19 @@
  * @copyright Pimenko | Sylvain Revenu
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
-
     /**
-     * @param $mform
+     * Defines the specific configuration form elements for this block.
+     *
+     * @param MoodleQuickForm $mform The form being built.
      * @return void
      * @throws coding_exception
      */
     public function specific_definition($mform): void {
-        global $DB, $PAGE;
+        global $DB;
 
         $mform = $this->_form;
-
-        // For some reasons calling $this->page->requires->js_call_amd is not applying javascript to ur page ...
-        // Using this for now.
-        $PAGE->requires->js_call_amd('block_pimenkofeaturedcourses/updatebutton', 'init');
+        $this->page->requires->js_call_amd('block_pimenkofeaturedcourses/updatebutton', 'init');
 
         // Section header title according to language file.
         $mform->addElement('header', 'config_header', get_string('blocksettings', 'block'));
@@ -52,13 +49,18 @@ class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
             }
         }
 
-        $options = array(
+        $options = [
             'multiple' => true,
             'noselectionstring' => get_string('allareas', 'search'),
             'data-updatebutton-field' => 'autocomplete',
+        ];
+        $mform->addElement(
+            'autocomplete',
+            'config_courseslist',
+            get_string('searcharea', 'search'),
+            $courseslist,
+            $options
         );
-        $mform->addElement('autocomplete',
-            'config_courseslist', get_string('searcharea', 'search'), $courseslist, $options);
         // Button to update format-specific options on format change (will be hidden by JavaScript).
         $mform->registerNoSubmitButton('updatecourseslist');
         $mform->addElement('submit', 'updatecourseslist', get_string('updatecourseslist', 'block_pimenkofeaturedcourses'), [
@@ -82,9 +84,13 @@ class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
             }
 
             foreach ($coursesselect as $course) {
-                $select = $mform->addElement('select', 'config_course_order_' . clean_param($course, PARAM_INT),
-                    get_string('orderof', 'block_pimenkofeaturedcourses') . ' ' . $courseslist[clean_param($course, PARAM_INT)],
-                    $options);
+                $select = $mform->addElement(
+                    'select',
+                    'config_course_order_' . clean_param($course, PARAM_INT),
+                    get_string('orderof', 'block_pimenkofeaturedcourses') . ' ' .
+                        $courseslist[clean_param($course, PARAM_INT)],
+                    $options
+                );
                 $select->setMultiple(false);
             }
         }
