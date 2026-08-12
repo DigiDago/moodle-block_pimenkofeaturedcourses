@@ -1,0 +1,188 @@
+name: Moodle Plugin CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - dev
+      - 'MOODLE_*_DEV'
+  pull_request:
+    branches:
+      - main
+      - master
+      - dev
+      - 'MOODLE_*_DEV'
+      - 'MOODLE_*_STABLE'
+
+jobs:
+  # Job to determine which Moodle branches to test
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      moodle-branches: ${{ steps.set-matrix.outputs.moodle-branches }}
+    steps:
+      - id: set-matrix
+        shell: bash
+        run: |
+          BRANCH="${{ github.base_ref || github.ref_name }}"
+          echo "Target branch detected: $BRANCH"
+
+          # CASE 1: Direct STABLE branch
+          if [[ "$BRANCH" =~ ^MOODLE_[0-9]{3}_STABLE$ ]]; then
+            JSON="[\"$BRANCH\"]"
+
+          # CASE 2: Specific DEV version
+          elif [[ "$BRANCH" =~ ^MOODLE_([0-9]{3})_DEV$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+            JSON="[\"MOODLE_${VERSION}_STABLE\"]"
+
+          # CASE 3: Generic range (Example for 4.x and 5.x)
+          elif [[ "$BRANCH" =~ ^MOODLE_([0-9])0X_DEV$ ]]; then
+            MAJOR="${BASH_REMATCH[1]}"
+            if [[ "$MAJOR" == "4" ]]; then
+              JSON='["MOODLE_400_STABLE","MOODLE_401_STABLE","MOODLE_402_STABLE","MOODLE_403_STABLE","MOODLE_404_STABLE","MOODLE_405_STABLE"]'
+            elif [[ "$MAJOR" == "5" ]]; then
+              JSON='["MOODLE_500_STABLE","MOODLE_501_STABLE"]'
+            fi
+
+          # CASE 4: Default matrix
+          else
+            JSON='["MOODLE_405_STABLE","MOODLE_500_STABLE","MOODLE_501_STABLE"]'
+          fi
+
+          echo "moodle-branches=$JSON" >> $GITHUB_OUTPUT
+
+  test:
+    needs: setup
+    # DYNAMIC NAME: This will show "Test for MOODLE_XXX_STABLE (pgsql)" in GitHub UI
+    name: Test for ${{ matrix.moodle-branch }} (${{ matrix.database }})
+    runs-on: ubuntu-22.04
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: 'postgres'
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
+        ports: [5432:5432]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+      mariadb:
+        image: mariadb:10
+        env:
+          MYSQL_USER: 'root'
+          MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          MYSQL_CHARACTER_SET_SERVER: "utf8mb4"
+          MYSQL_COLLATION_SERVER: "utf8mb4_unicode_ci"
+        ports: [3306:3306]
+        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        moodle-branch: ${{ fromJson(needs.setup.outputs.moodle-branches) }}
+        database: [ pgsql, mariadb ]
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          path: plugin
+
+      - name: Determine PHP Version
+        id: php-version
+        shell: bash
+        run: |
+          MBRANCH="${{ matrix.moodle-branch }}"
+          case "$MBRANCH" in
+            MOODLE_3[0-1]*) PHP="7.0" ;;
+            MOODLE_3[2-3]*) PHP="7.1" ;;
+            MOODLE_3[4-5]*) PHP="7.2" ;;
+            MOODLE_3[6-7]*) PHP="7.3" ;;
+            MOODLE_3[8-9]*) PHP="7.4" ;;
+            MOODLE_311*)    PHP="8.0" ;;
+            MOODLE_400*)    PHP="8.0" ;;
+            MOODLE_401*)    PHP="7.4" ;;
+            MOODLE_402*)    PHP="8.0" ;;
+            MOODLE_403*)    PHP="8.0" ;;
+            MOODLE_404*)    PHP="8.3" ;;
+            MOODLE_405*)    PHP="8.1" ;;
+            MOODLE_50[0-1]*) PHP="8.2" ;;
+            *)              PHP="8.3" ;;
+          esac
+          echo "php=$PHP" >> $GITHUB_OUTPUT
+          echo "Selected PHP $PHP for $MBRANCH"
+
+      - name: Setup PHP ${{ steps.php-version.outputs.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.php-version.outputs.php }}
+          ini-values: max_input_vars=5000
+          coverage: none
+
+      - name: Initialise moodle-plugin-ci
+        run: |
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
+          echo $(cd ci/bin; pwd) >> $GITHUB_PATH
+          echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
+          sudo locale-gen en_AU.UTF-8
+          echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
+
+      - name: Install moodle-plugin-ci
+        run: moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
+        env:
+          DB: ${{ matrix.database }}
+          MOODLE_BRANCH: ${{ matrix.moodle-branch }}
+
+      - name: PHP Lint
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phplint
+
+      - name: PHP Mess Detector
+        continue-on-error: true
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpmd
+
+      - name: Moodle Code Checker
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci codechecker
+
+      - name: Moodle PHPDoc Checker
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci phpdoc
+
+      - name: Validating
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci validate
+
+      - name: Check upgrade savepoints
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci savepoints
+
+      - name: Mustache Lint
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci mustache
+
+      - name: Stylelint
+        continue-on-error: true
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci grunt --tasks stylelint
+
+      - name: PHPUnit tests
+        if: ${{ !cancelled() }}
+        run: |
+          if [ -d "moodle/public/blocks/pimenkofeaturedcourses" ]; then
+            PLUGIN_PATH="moodle/public/blocks/pimenkofeaturedcourses"
+          else
+            PLUGIN_PATH="moodle/blocks/pimenkofeaturedcourses"
+          fi
+          moodle-plugin-ci phpunit --fail-on-warning
+
+      - name: Behat tests
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci behat --tags "@block_pimenkofeaturedcourses"
+
+      - name: Mark cancelled jobs as failed
+        if: ${{ cancelled() }}
+        run: exit 1
+
