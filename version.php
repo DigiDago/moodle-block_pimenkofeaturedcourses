@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026052100;
+$plugin->version = 2026102100;
 $plugin->requires = 2022041902;
 $plugin->component = 'block_pimenkofeaturedcourses';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.3';
+$plugin->release = '1.4';
