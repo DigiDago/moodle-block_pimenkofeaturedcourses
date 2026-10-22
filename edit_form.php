@@ -57,7 +57,7 @@ class block_pimenkofeaturedcourses_edit_form extends block_edit_form {
         $mform->addElement(
             'autocomplete',
             'config_courseslist',
-            get_string('searcharea', 'search'),
+            get_string('coursestodisplay', 'block_pimenkofeaturedcourses'),
             $courseslist,
             $options
         );
