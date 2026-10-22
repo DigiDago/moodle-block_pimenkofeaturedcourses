@@ -23,6 +23,7 @@
  */
 
 $string['courseslist'] = 'Liste des cours';
+$string['coursestodisplay'] = 'Cours à afficher';
 $string['displayenrolnumber'] = 'Afficher le nombre d\'inscrits au cours';
 $string['displayenrolnumber_desc'] = 'Si cette option est cochée, le nombre d\'inscrits au cours est affiché dans la vignette';
 $string['orderof'] = 'Ordre d\'affichage de ';
