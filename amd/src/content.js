@@ -64,6 +64,6 @@ export const init = () => {
         const observer = new MutationObserver(() => {
             refreshGallery();
         });
-        observer.observe(galleryRoot.parentElement, { attributes: false, childList: true, subtree: true });
+        observer.observe(galleryRoot.parentElement, {attributes: false, childList: true, subtree: true});
     });
 };
