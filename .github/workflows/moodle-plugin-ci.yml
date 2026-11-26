@@ -43,12 +43,12 @@ jobs:
             if [[ "$MAJOR" == "4" ]]; then
               JSON='["MOODLE_400_STABLE","MOODLE_401_STABLE","MOODLE_402_STABLE","MOODLE_403_STABLE","MOODLE_404_STABLE","MOODLE_405_STABLE"]'
             elif [[ "$MAJOR" == "5" ]]; then
-              JSON='["MOODLE_500_STABLE","MOODLE_501_STABLE"]'
+              JSON='["MOODLE_500_STABLE","MOODLE_501_STABLE","MOODLE_502_STABLE","MOODLE_503_STABLE"]'
             fi
 
           # CASE 4: Default matrix
           else
-            JSON='["MOODLE_500_STABLE","MOODLE_501_STABLE"]'
+            JSON='["MOODLE_405_STABLE","MOODLE_500_STABLE","MOODLE_501_STABLE","MOODLE_502_STABLE","MOODLE_503_STABLE"]'
           fi
 
           echo "moodle-branches=$JSON" >> $GITHUB_OUTPUT
@@ -61,21 +61,21 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:17
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
         ports: [5432:5432]
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
       mariadb:
-        image: mariadb:10
+        image: mariadb:11.4
         env:
           MYSQL_USER: 'root'
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
           MYSQL_CHARACTER_SET_SERVER: "utf8mb4"
           MYSQL_COLLATION_SERVER: "utf8mb4_unicode_ci"
         ports: [3306:3306]
-        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval 10s --health-timeout 5s --health-retries 3
 
     strategy:
       fail-fast: false
@@ -85,7 +85,7 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: plugin
 
@@ -139,7 +139,6 @@ jobs:
         run: moodle-plugin-ci phplint
 
       - name: PHP Mess Detector
-        continue-on-error: true
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpmd
 
@@ -163,10 +162,9 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci mustache
 
-      - name: Stylelint
-        continue-on-error: true
+      - name: Grunt
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci grunt --tasks stylelint
+        run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests
         if: ${{ !cancelled() }}
@@ -178,10 +176,11 @@ jobs:
           fi
           moodle-plugin-ci phpunit --fail-on-warning
 
-      - name: Behat test
+      - name: Behat tests
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci behat --tags "@block_pimenkofeaturedcourses"
 
       - name: Mark cancelled jobs as failed
         if: ${{ cancelled() }}
         run: exit 1
+
